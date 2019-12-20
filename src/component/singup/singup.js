@@ -15,6 +15,15 @@ import { typography } from '@material-ui/system';
 const firebase = require('firebase');
 
 class SingupComponent extends React.Component{
+  constructor(){
+    super();
+    this.state = {
+      email : null,
+      password : null,
+      passwordConfirmation: null,
+      signupError : ''
+    };
+  }
     render(){
       const { classes } = this.props;
       return(
@@ -35,10 +44,17 @@ class SingupComponent extends React.Component{
           </FormControl>
           <FormControl required fullWidth margin = "normal">
             <InputLabel htmlFor='signup-password-confirmation-input'>Create A Password</InputLabel>
-            <Input type="password" onChange={(e)=> this.userTyping('passwordCondirmation',e)} id ='signup-password-confirmation-input'></Input>
+            <Input type="password" onChange={(e)=> this.userTyping('passwordConfirmation',e)} id ='signup-password-confirmation-input'></Input>
           </FormControl>
           <Button type = 'submit' fullWidth variant = 'contained' color ='primary' className={classes.submit}>Submit</Button>
           </form>
+          {
+            this.state.signupError ?
+            <Typography className={classes.errorText}component='h5' variant='h6'>
+            {this.state.signupError}
+            </Typography>:
+            null
+          }
           <Typography component='h5' variant='h6' className={classes.hasAccountHeader}>Already have An Account?</Typography>
           <Link className={classes.loginLink} to='/login'>Login</Link>
         </Paper>
@@ -47,11 +63,26 @@ class SingupComponent extends React.Component{
       )
     };
     userTyping = (type,e) => {
-      console.log(type,e);
+      switch (type) {
+        case 'email':
+        this.setState({email: e.target.value})
+          
+          break;
+          case 'password':
+          this.setState({password: e.target.value})
+          break;
+          case 'passwordConfirmation':
+          this.setState({passwordConfirmation: e.target.value})
+          break;
+      
+        default:
+          break;
+      }
     }
 
     submitsignup = (e) => {
-      console.log('Submitting');
+      e.preventDefault();
+      console.log('Submitting',this.state);
     }
 };
 
