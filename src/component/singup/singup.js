@@ -12,6 +12,7 @@ import styles from './styles';
 import EmailIcon from '@material-ui/icons/Email';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import { typography } from '@material-ui/system';
+import { auth } from 'firebase';
 const firebase = require('firebase');
 
 class SingupComponent extends React.Component{
@@ -62,6 +63,8 @@ class SingupComponent extends React.Component{
         </main>
       )
     };
+
+    formIsValid = () => this.setState.password === this.state.passwordConfirmation;
     userTyping = (type,e) => {
       switch (type) {
         case 'email':
@@ -82,7 +85,32 @@ class SingupComponent extends React.Component{
 
     submitsignup = (e) => {
       e.preventDefault();
-      console.log('Submitting',this.state);
+      if(!this.formIsValid()){
+        this.setState({signupError:'Password do not match'})
+        return;
+      }
+      firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email,this.state.password)
+      .then(authRes=>{
+        const userObj = {
+          email:authRes.user.email,
+        };
+        firebase
+        .firestore()
+        .collection('users')
+        .doc(this.state.email)
+        .set(userObj)
+        .then(()=>{
+          this.props.history.push('/dashbord')
+        },dbErr=>{
+          console.log(dbErr)
+          this.setState({signupError:"Faild to add user"})  
+        })
+      },authErr=>{
+        console.log(authErr)
+        this.setState({signupError:"Faild to add user"})
+      })
     }
 };
 
