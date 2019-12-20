@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+<<<<<<< HEAD
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
         </a>
       </header>
     </div>
+=======
+import LoginComponent from './component/login/login'
+impo
+
+function App() {
+  return (
+    <div></div>
+>>>>>>> 87608897e65e3b69ed22bc57ae5079323f43236f
   );
 }
 
