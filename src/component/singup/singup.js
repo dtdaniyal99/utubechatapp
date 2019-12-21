@@ -64,7 +64,7 @@ class SingupComponent extends React.Component{
       )
     };
 
-    formIsValid = () => this.setState.password === this.state.passwordConfirmation;
+    formIsValid = () => this.state.password === this.state.passwordConfirmation;
     userTyping = (type,e) => {
       switch (type) {
         case 'email':
