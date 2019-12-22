@@ -1,4 +1,3 @@
-import { spacing } from '@material-ui/system';
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -16,7 +15,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `paddingTop= 20px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`
   },
   form: {
     width: '100%',
