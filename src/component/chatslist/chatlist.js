@@ -13,8 +13,53 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import NotificationImportant from '@material-ui/icons/NotificationImportant'
 
 class ChatListComponent extends React.Component{
+    
     render(){
-        return(<div>hello from chat list</div>)
+        const {classes} = this.props;
+
+        return(
+            <main className={classes.root}>
+                <Button variant="contained" fullwidth color='primary' className={classes.newChatBtn}
+                onClick={this.newChat}>
+                    <List>
+                        {
+                           this.props.chats.map((_chat,_index)=>{
+                               return(
+                                  <div>
+                                     <ListItem onClick={() => this.selectChat(_index)}className={classes.listItem}
+                                   selected={this.props.selectedChatIndex === _index}
+                                   alignItem ='flex-start'>
+                                       <ListItemAvatar>
+                                            <Avatar alt='Remy Sharp'>{_chat.user.filter(_user=>_user !== this.props.userEmail)[0].split('')[0]}</Avatar>
+                                       </ListItemAvatar>
+                                       <ListItemText primary={_chat.users.filter(_user=>_user !== this.props.userEmail)[0]} 
+                                       secondary={
+                                           <React.Fragment>
+                                                <Typography cpmponent="span" color="textPrimary">
+                                                    {
+                                                        _chat.messages[_chat.messages.length -1].message.substring(0, 30)
+                                                    }
+                                                </Typography>                                               
+                                           </React.Fragment>
+                                       }></ListItemText>
+
+                            
+                                   </ListItem>   
+                                  </div> 
+                               )
+                           }); 
+                        }
+                    </List>
+                </Button>
+            </main>
+        );
+    }
+
+    newChat = () => {
+        console.log('new chat click')  
+    }
+    selectChat = (index) =>{
+        console.log('select chat', index)
     }
 }
 
