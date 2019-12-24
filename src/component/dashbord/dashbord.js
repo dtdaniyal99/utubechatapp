@@ -1,6 +1,10 @@
 import React from 'react';
-import ChatListComponent from '../chatslist/chatlist'
-const firebase = require('firebase');
+import ChatListComponent from '../chatslist/chatlist';
+import styles from './styles';
+import { Button, withStyles } from '@material-ui/core';
+import ChatViewComponent from '../chatview/chatview';
+const firebase = require("firebase");
+
 class DashbordComponent extends React.Component{
   constructor(){
     super();
@@ -13,18 +17,31 @@ class DashbordComponent extends React.Component{
   }
 
     render(){
-      return(<div>Hellow world from Dashbord
+      const { classes } = this.props;
+      return(<div>
       <ChatListComponent history = {this.props.history} 
       newChatBtnFn={this.newChatBtnClicked }
       selectChatFn={this.selectChat}
       chats={this.state.chats}
       userEmail={this.state.email}
-      selectedChatIndex={this.state.selectedChat}></ChatListComponent>  
+      selectChatIndex={this.state.selectedChat}></ChatListComponent>
+      {
+        this.state.newChatFormVisible?
+        null:
+        <ChatViewComponent
+        user={this.state.email}
+        chat={this.state.chats[this.state.selectedChat]}></ChatViewComponent>  
+      }
+      
+      <Button onClick={this.signOut} className={classes.signOutBtn}>Sign Out</Button>  
       </div>)
     };
 
-    selectChat =()=>{
-      console.log('slected a chat')
+    signOut = () => firebase.auth().signOut();
+
+    selectChat =(chatIndex)=>{
+      console.log('index:',chatIndex)
+      this.setState({selectedChat: chatIndex})
     }
 
     newChatBtnClicked = () => this.setState({newChatFormVisible: true, selectedChat: null});
@@ -48,4 +65,4 @@ class DashbordComponent extends React.Component{
     }
 };
 
-export default DashbordComponent;
+export default withStyles(styles)(DashbordComponent);
